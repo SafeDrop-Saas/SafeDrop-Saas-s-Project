@@ -1372,76 +1372,42 @@
             uploadBtn.disabled = !(isFileSelected && isMessageValid && isPasswordValid);
         }
         
-        function handleUpload() {
-            // In a real app, this would upload to a server
-            // For demo, we'll simulate the response
-            
-            // Generate random secret key
-            const key = generateSecretKey();
-            
-            // Create share link
-            const link = `${window.location.origin}/file/${key}`;
-            
-            // Show results
-            shareLink.value = link;
-            secretKey.value = key;
-            uploadResult.style.display = 'block';
-            
-            // Scroll to results
-            uploadResult.scrollIntoView({ behavior: 'smooth' });
-            
-            // Reset form for demo purposes
-            setTimeout(() => {
-                selectedFile = null;
-                fileInput.value = '';
-                messageInput.value = '';
-                passwordInput.value = '';
-                confirmPasswordInput.value = '';
-                confirmPasswordInput.style.display = 'none';
-                uploadBtn.disabled = true;
-                fileInfo.style.display = 'none';
-                uploadContainer.style.display = 'flex';
-                wordCount.textContent = '0/60 words';
-            }, 10000);
-        }
         
-        function generateSecretKey() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-            for (let i = 0; i < 16; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return result;
-        }
-        
-        function copyShareLink() {
-            shareLink.select();
-            document.execCommand('copy');
-            
-            // Change button text temporarily
-            const originalText = copyLinkBtn.textContent;
-            copyLinkBtn.textContent = 'Copied!';
-            setTimeout(() => {
-                copyLinkBtn.textContent = originalText;
-            }, 2000);
-        }
-        
-        function simulateFileAccess() {
-            // In a real app, this would verify with a server
-            // For demo, we'll show sample file details
-            
-            detailName.textContent = 'SampleFile.pdf';
-            detailSize.textContent = '2.4 MB';
-            detailMessage.textContent = 'Here are the documents you requested. Please review them and let me know your thoughts.';
-            
-            // Set expiry 3 days from now
-            const expiryDate = new Date();
-            expiryDate.setDate(expiryDate.getDate() + 3);
-            detailExpiry.textContent = expiryDate.toLocaleDateString() + ' at ' + expiryDate.toLocaleTimeString();
-            
-            fileDetails.style.display = 'block';
-            fileDetails.scrollIntoView({ behavior: 'smooth' });
-        }
+async function handleUpload() {
+    if (!selectedFile) return;
+
+    const key = generateSecretKey();
+    const filePath = `public/${key}_${selectedFile.name}`;
+
+    // Upload to Supabase Storage
+    const { data, error } = await supabase.storage.from('uploads').upload(filePath, selectedFile);
+
+    if (error) {
+        alert('Upload failed: ' + error.message);
+        return;
+    }
+
+    const link = `${window.location.origin}/file/${key}`;
+    shareLink.value = link;
+    secretKey.value = key;
+    uploadResult.style.display = 'block';
+    uploadResult.scrollIntoView({ behavior: 'smooth' });
+
+    // Reset form
+    setTimeout(() => {
+        selectedFile = null;
+        fileInput.value = '';
+        messageInput.value = '';
+        passwordInput.value = '';
+        confirmPasswordInput.value = '';
+        confirmPasswordInput.style.display = 'none';
+        uploadBtn.disabled = true;
+        fileInfo.style.display = 'none';
+        uploadContainer.style.display = 'flex';
+        wordCount.textContent = '0/60 words';
+    }, 10000);
+}
+
         
         function simulateDownload() {
             alert('In a real application, this would download the file. This is a demo.');
@@ -1480,5 +1446,14 @@
             console.log('AdSense initialized');
         })();
     </script>
+<!-- Supabase JS Library -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+  const supabaseUrl = 'https://gvclyfjlpvcyojgxpfmg.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2Y2x5ZmpscHZjeW9qZ3hwZm1nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE1MzQ1NDAsImV4cCI6MjA2NzExMDU0MH0.eDjK9DSh51nRN6-nZRgmw7Ux2ob70zPCAN3mdRDseSk';
+
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+</script>
 </body>
 </html>
