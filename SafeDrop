@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SafeDrop - Secure file sharing platform for images, documents, and media. Share files securely with password protection and automatic expiration.">
+    <meta name="keywords" content="file sharing, secure transfer, SafeDrop, share files, encrypted transfer">
+    <title>SafeDrop - Secure File Sharing Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --info: #0984e3;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .auth-buttons .btn {
+            margin-left: 15px;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 40px 0;
+        }
+        
+        /* File Upload Section */
+        .upload-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+        
+        .upload-container {
+            border: 2px dashed var(--secondary);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .upload-container:hover {
+            border-color: var(--primary);
+            background-color: rgba(108, 92, 231, 0.05);
+        }
+        
+        .upload-container i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .upload-container p {
+            margin-bottom: 15px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .message-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+        
+        .password-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .password-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background-color: #5649d1;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #9188f0;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background-color: #fc68a0;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-card i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        /* How It Works Section */
+        .how-it-works {
+            padding: 60px 0;
+            background-color: var(--light);
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 50px;
+            margin-bottom: 20px;
+        }
+        
+        /* Pricing Section */
+        .pricing {
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .pricing-plans {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .pricing-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 40px 30px;
+            text-align: center;
+            width: 300px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pricing-card.popular::before {
+            content: "Popular";
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .price {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .price span {
+            font-size: 16px;
+            font-weight: normal;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* New Pricing Table Styles */
+        .free-trial {
+            background-color: #e9f7ef;
+            border: 1px solid #28a745;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .free-trial ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .free-trial ul li {
+            margin-bottom: 8px;
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+        
+        .pricing-table th, .pricing-table td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .pricing-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .pricing-table td ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .pricing-table td ul li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            color: #856404;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-table, .pricing-table thead, .pricing-table tbody, 
+            .pricing-table th, .pricing-table td, .pricing-table tr {
+                display: block;
+                width: 100%;
+            }
+            
+            .pricing-table th {
+                position: sticky;
+                top: 0;
+            }
+            
+            .pricing-table td {
+                border: none;
+                border-bottom: 1px solid #ddd;
+                padding: 10px;
+            }
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 60px 0;
+            background-color: var(--light);
+        }
+        
+        .faq-item {
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .faq-question i {
+            transition: transform 0.3s;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+        
+        /* Ad Sections */
+        .ad-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 40px 0;
+            border: 1px dashed #ddd;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        /* File Access Section */
+        .access-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .access-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .auth-buttons {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .steps {
+                flex-direction: column;
+            }
+            
+            .step {
+                width: 100%;
+            }
+            
+            .pricing-plans {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .password-section {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .upload-container {
+                padding: 20px;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo"><i class="fas fa-lock"></i> SafeDrop</a>
+                
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-secondary" id="login-btn">Log In</a>
+                    <a href="#" class="btn" id="signup-btn">Sign Up</a>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Secure File Sharing Made Simple</h1>
+            <p>Share your files securely with password protection and automatic expiration. Perfect for sensitive documents, media, and more.</p>
+            <a href="#upload" class="btn btn-accent">Share a File Now</a>
+        </div>
+    </section>
+
+    <!-- Ad Section -->
+    <div class="container">
+        <div class="ad-section">
+            <!-- Google AdSense Ad Unit -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                crossorigin="anonymous"></script>
+            <!-- SafeDrop Header Ad -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                data-ad-slot="YOUR_AD_SLOT_ID"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- File Upload Section -->
+            <section class="upload-section" id="upload">
+                <h2>Share a File</h2>
+                <p>Upload your file and add a short message. We'll keep it secure for 3 days.</p>
+                
+                <div class="upload-container" id="upload-container">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drag & Drop your files here</h3>
+                    <p>or</p>
+                    <button class="btn" id="browse-btn">Browse Files</button>
+                    <input type="file" class="file-input" id="file-input">
+                </div>
+                
+                <div id="file-info" style="display: none;">
+                    <p><strong>Selected file:</strong> <span id="file-name"></span> (<span id="file-size"></span>)</p>
+                    <button class="btn btn-secondary" id="change-file-btn">Change File</button>
+                </div>
+                
+                <textarea class="message-input" id="message-input" placeholder="Add a short message (max 60 words)..." maxlength="360"></textarea>
+                <small id="word-count">0/60 words</small>
+                
+                <div class="password-section">
+                    <input type="password" class="password-input" id="password-input" placeholder="Set a password (optional)">
+                    <input type="password" class="password-input" id="confirm-password-input" placeholder="Confirm password" style="display: none;">
+                </div>
+                
+                <button class="btn" id="upload-btn" disabled>Upload & Generate Link</button>
+                
+                <div id="upload-result" style="display: none; margin-top: 20px;">
+                    <h3>Your file is ready to share!</h3>
+                    <div class="form-group">
+                        <label for="share-link">Share this link:</label>
+                        <input type="text" class="form-control" id="share-link" readonly>
+                        <button class="btn btn-secondary" id="copy-link-btn" style="margin-top: 10px;">Copy Link</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="secret-key">Secret Key (save this):</label>
+                        <input type="text" class="form-control" id="secret-key" readonly>
+                    </div>
+                    <p><small>File will expire in 3 days. Maximum download limit: 10 times.</small></p>
+                </div>
+            </section>
+            
+            <!-- File Access Section -->
+            <section class="access-section">
+                <h2>Access a Shared File</h2>
+                <p>Enter the secret key and password to download the file.</p>
+                
+                <form class="access-form">
+                    <div class="form-group">
+                        <label for="access-key">Secret Key</label>
+                        <input type="text" class="form-control" id="access-key" placeholder="Enter the secret key">
+                    </div>
+                    <div class="form-group">
+                        <label for="access-password">Password (if set)</label>
+                        <input type="password" class="form-control" id="access-password" placeholder="Enter password">
+                    </div>
+                    <button type="button" class="btn" id="access-btn">Access File</button>
+                </form>
+                
+                <div id="file-details" style="display: none; margin-top: 20px;">
+                    <h3>File Details</h3>
+                    <p><strong>File Name:</strong> <span id="detail-name"></span></p>
+                    <p><strong>File Size:</strong> <span id="detail-size"></span></p>
+                    <p><strong>Message:</strong> <span id="detail-message"></span></p>
+                    <p><strong>Expires:</strong> <span id="detail-expiry"></span></p>
+                    <button class="btn btn-accent" id="download-btn">Download File</button>
+                </div>
+            </section>
+            
+            <!-- Ad Section -->
+            <div class="ad-section">
+                <!-- Google AdSense Ad Unit -->
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                    crossorigin="anonymous"></script>
+                <!-- SafeDrop Mid Content Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                    data-ad-slot="YOUR_AD_SLOT_ID"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            
+            <!-- Features Section -->
+            <section class="features" id="features">
+                <div class="section-title">
+                    <h2>Why Choose SafeDrop?</h2>
+                    <p>Secure file sharing with powerful features</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Military-Grade Encryption</h3>
+                        <p>Your files are encrypted with AES-256 encryption, ensuring maximum security during transfer and storage.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>Automatic Expiration</h3>
+                        <p>Files automatically delete after 3 days, so you don't have to worry about them lingering online.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <i class="fas fa-lock"></i>
+                        <h3>Password Protection</h3>
+                        <p>Add an extra layer of security with optional password protection for your shared files.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h3>High-Speed Transfers</h3>
+                        <p>Our optimized servers ensure fast upload and download speeds for files up to 2GB.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>Fully Responsive</h3>
+                        <p>Access and share files from any device - desktop, tablet, or smartphone.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Multiple File Types</h3>
+                        <p>Supports all common file types including images, documents, audio, video, and more.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- How It Works Section -->
+            <section class="how-it-works" id="how-it-works">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>How SafeDrop Works</h2>
+                        <p>Share files securely in just a few simple steps</p>
+                    </div>
+                    
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h3>Upload Your File</h3>
+                            <p>Select the file you want to share from your device or drag and drop it into the upload area.</p>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h3>Add Details</h3>
+                            <p>Optionally add a message and set a password for extra security.</p>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h3>Share the Link</h3>
+                            <p>We generate a secure link and secret key that you can share with the recipient.</p>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <h3>Recipient Accesses File</h3>
+                            <p>The recipient uses the link and password (if set) to download the file within 3 days.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Ad Section -->
+            <div class="ad-section">
+                <!-- Google AdSense Ad Unit -->
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID"
+                    crossorigin="anonymous"></script>
+                <!-- SafeDrop Bottom Content Ad -->
+                <ins class="adsbygoogle"
+                    style="display:block"
+                    data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                    data-ad-slot="YOUR_AD_SLOT_ID"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            
+            <!-- Pricing Section -->
+            <section class="pricing" id="pricing">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Simple, Transparent Pricing</h2>
+                        <p>Start with our free plan and upgrade when you need more</p>
+                    </div>
+
+                    <!-- Free Trial Section -->
+                    <div class="free-trial">
+                        <h2>Free Trial - Get Started Today</h2>
+                        <ul>
+                            <li>Upload up to 3 files/day</li>
+                            <li>Max 50MB per file</li>
+                            <li>Basic Security (No Password Protection)</li>
+                            <li>3-Day File Expiry</li>
+                            <li>Google Sign-in Required</li>
+                        </ul>
+                        <p>Note - Perfect for light users or to test SafeDrop before upgrading!</p>
+                    </div>
+
+                    <!-- Pricing Table -->
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Plan</th>
+                                <th>Monthly Cost (Effective)</th>
+                                <th>Features</th>
+                                <th>Best For</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Starter (3 Months Plan)</strong></td>
+                                <td><strong>₹299/month</strong> <br> (₹897 total)</td>
+                                <td>
+                                    <ul>
+                                        <li>Unlimited file uploads</li>
+                                        <li>Max 300MB per file</li>
+                                        <li>Password protection</li>
+                                        <li>No Ads</li>
+                                        <li>Priority Support</li>
+                                    </ul>
+                                </td>
+                                <td>Students, Freelancers, Light Businesses</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pro (6 Months Plan)</strong></td>
+                                <td><strong>₹349/month</strong> <br> (₹2094 total)</td>
+                                <td>
+                                    <ul>
+                                        <li>Unlimited file uploads</li>
+                                        <li>Max 1GB per file</li>
+                                        <li>Password protection</li>
+                                        <li>No Ads</li>
+                                        <li>Priority Support</li>
+                                    </ul>
+                                </td>
+                                <td>Medium Businesses, Teams, Content Creators</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ultimate (12 Months Plan)</strong></td>
+                                <td><strong>₹399/month</strong> <br> (₹4788 total) <br> <span class="highlight">Save 33%</span></td>
+                                <td>
+                                    <ul>
+                                        <li>Unlimited file uploads</li>
+                                        <li>Max 2GB per file</li>
+                                        <li>Password protection</li>
+                                        <li>No Ads</li>
+                                        <li>Priority Support</li>
+                                        <li>Early Access to New Features</li>
+                                    </ul>
+                                </td>
+                                <td>Heavy Businesses, Companies, Large File Senders</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- FAQ Section -->
+            <section class="faq" id="faq">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Frequently Asked Questions</h2>
+                        <p>Find answers to common questions about SafeDrop</p>
+                    </div>
+                    
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What types of files can I share with SafeDrop?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>SafeDrop supports all common file types including images (JPG, PNG, GIF), documents (PDF, DOCX, XLSX, PPTX), audio files (MP3, WAV), video files (MP4, MOV), and more. The maximum file size is 2GB/file for premium users and 50MB/file for free users.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How secure is SafeDrop?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>SafeDrop uses industry-standard AES-256 encryption for all files during transfer and storage. Files are automatically deleted after 3 days, and you can add an additional layer of security with password protection. We don't scan or access your files' contents.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How do I access a shared file?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>To access a shared file, you'll need the secure link and the secret key provided by the sender. If the file is password protected, you'll also need to enter the correct password. Simply enter these details in the "Access a Shared File" section to download the file.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What happens to my files after 3 days?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Files are automatically and permanently deleted from our servers after 3 days. Once deleted, they cannot be recovered. If you need longer storage, you can re-upload the file or consider our premium plans which may offer extended storage options.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Can I share files without creating an account?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Our free tier requires signing in with Google to prevent abuse of the service. Premium users can upload files without additional sign-in steps after the initial account creation. This helps us maintain a secure and reliable service for all users.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SafeDrop</h3>
+                    <p>Secure file sharing made simple. Transfer your files with confidence using our encrypted platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR Compliance</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> safedrop42@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +91 7983302597</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Bareilly, India</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 SafeDrop. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Log In to SafeDrop</h2>
+            <p>Sign in to access your files and account settings.</p>
+            
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input type="email" class="form-control" id="login-email" placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" class="form-control" id="login-password" placeholder="Enter your password">
+            </div>
+            
+            <button class="btn" id="modal-login-btn">Log In</button>
+            <p style="margin-top: 15px;">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+            
+            <div class="social-login" style="margin-top: 20px; text-align: center;">
+                <p>Or log in with:</p>
+                <button class="btn btn-secondary" style="background-color: #DB4437; margin-top: 10px;">
+                    <i class="fab fa-google"></i> Google
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Signup Modal -->
+    <div class="modal" id="signup-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Create Your SafeDrop Account</h2>
+            <p>Get started with secure file sharing in minutes.</p>
+            
+            <div class="form-group">
+                <label for="signup-name">Full Name</label>
+                <input type="text" class="form-control" id="signup-name" placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+                <label for="signup-email">Email</label>
+                <input type="email" class="form-control" id="signup-email" placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" class="form-control" id="signup-password" placeholder="Create a password">
+            </div>
+            
+            <div class="form-group">
+                <label for="signup-confirm">Confirm Password</label>
+                <input type="password" class="form-control" id="signup-confirm" placeholder="Confirm your password">
+            </div>
+            
+            <button class="btn" id="modal-signup-btn">Create Account</button>
+            <p style="margin-top: 15px;">Already have an account? <a href="#" id="show-login">Log in</a></p>
+            
+            <div class="social-login" style="margin-top: 20px; text-align: center;">
+                <p>Or sign up with:</p>
+                <button class="btn btn-secondary" style="background-color: #DB4437; margin-top: 10px;">
+                    <i class="fab fa-google"></i> Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const uploadContainer = document.getElementById('upload-container');
+        const fileInput = document.getElementById('file-input');
+        const browseBtn = document.getElementById('browse-btn');
+        const fileInfo = document.getElementById('file-info');
+        const fileName = document.getElementById('file-name');
+        const fileSize = document.getElementById('file-size');
+        const changeFileBtn = document.getElementById('change-file-btn');
+        const messageInput = document.getElementById('message-input');
+        const wordCount = document.getElementById('word-count');
+        const passwordInput = document.getElementById('password-input');
+        const confirmPasswordInput = document.getElementById('confirm-password-input');
+        const uploadBtn = document.getElementById('upload-btn');
+        const uploadResult = document.getElementById('upload-result');
+        const shareLink = document.getElementById('share-link');
+        const secretKey = document.getElementById('secret-key');
+        const copyLinkBtn = document.getElementById('copy-link-btn');
+        const accessBtn = document.getElementById('access-btn');
+        const fileDetails = document.getElementById('file-details');
+        const detailName = document.getElementById('detail-name');
+        const detailSize = document.getElementById('detail-size');
+        const detailMessage = document.getElementById('detail-message');
+        const detailExpiry = document.getElementById('detail-expiry');
+        const downloadBtn = document.getElementById('download-btn');
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        const closeModals = document.querySelectorAll('.close-modal');
+        const showSignup = document.getElementById('show-signup');
+        const showLogin = document.getElementById('show-login');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        // Variables
+        let selectedFile = null;
+        
+        // Event Listeners
+        browseBtn.addEventListener('click', () => fileInput.click());
+        changeFileBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+        uploadContainer.addEventListener('dragover', handleDragOver);
+        uploadContainer.addEventListener('dragleave', handleDragLeave);
+        uploadContainer.addEventListener('drop', handleDrop);
+        messageInput.addEventListener('input', updateWordCount);
+        passwordInput.addEventListener('input', toggleConfirmPassword);
+        uploadBtn.addEventListener('click', handleUpload);
+        copyLinkBtn.addEventListener('click', copyShareLink);
+        accessBtn.addEventListener('click', simulateFileAccess);
+        downloadBtn.addEventListener('click', simulateDownload);
+        loginBtn.addEventListener('click', () => loginModal.style.display = 'flex');
+        signupBtn.addEventListener('click', () => signupModal.style.display = 'flex');
+        closeModals.forEach(btn => btn.addEventListener('click', closeModal));
+        showSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            signupModal.style.display = 'flex';
+        });
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        faqItems.forEach(item => {
+            item.querySelector('.faq-question').addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) loginModal.style.display = 'none';
+            if (e.target === signupModal) signupModal.style.display = 'none';
+        });
+        
+        // Functions
+        function handleFileSelect(e) {
+            const file = e.target.files[0] || (e.dataTransfer && e.dataTransfer.files[0]);
+            
+            if (!file) return;
+            
+            // Check file size
+            const maxSize = 300 * 1024 * 1024; // 300MB
+            if (file.size > maxSize) {
+                alert('File size exceeds the 300MB limit. Please choose a smaller file.');
+                return;
+            }
+            
+            selectedFile = file;
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            
+            uploadContainer.style.display = 'none';
+            fileInfo.style.display = 'block';
+            
+            checkUploadReady();
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadContainer.style.borderColor = 'var(--primary)';
+            uploadContainer.style.backgroundColor = 'rgba(108, 92, 231, 0.1)';
+        }
+        
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            uploadContainer.style.borderColor = 'var(--secondary)';
+            uploadContainer.style.backgroundColor = 'transparent';
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            handleDragLeave(e);
+            fileInput.files = e.dataTransfer.files;
+            handleFileSelect(e);
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function updateWordCount() {
+            const text = messageInput.value.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            wordCount.textContent = `${words}/60 words`;
+            
+            if (words > 60) {
+                wordCount.style.color = 'var(--danger)';
+            } else {
+                wordCount.style.color = 'inherit';
+            }
+            
+            checkUploadReady();
+        }
+        
+        function toggleConfirmPassword() {
+            if (passwordInput.value.length > 0) {
+                confirmPasswordInput.style.display = 'block';
+            } else {
+                confirmPasswordInput.style.display = 'none';
+            }
+            
+            checkUploadReady();
+        }
+        
+        function checkUploadReady() {
+            const isFileSelected = selectedFile !== null;
+            const isMessageValid = messageInput.value.trim().split(/\s+/).length <= 60;
+            const isPasswordValid = passwordInput.value.length === 0 || 
+                                 (passwordInput.value.length >= 4 && 
+                                  passwordInput.value === confirmPasswordInput.value);
+            
+            uploadBtn.disabled = !(isFileSelected && isMessageValid && isPasswordValid);
+        }
+        
+        function handleUpload() {
+            // In a real app, this would upload to a server
+            // For demo, we'll simulate the response
+            
+            // Generate random secret key
+            const key = generateSecretKey();
+            
+            // Create share link
+            const link = `${window.location.origin}/file/${key}`;
+            
+            // Show results
+            shareLink.value = link;
+            secretKey.value = key;
+            uploadResult.style.display = 'block';
+            
+            // Scroll to results
+            uploadResult.scrollIntoView({ behavior: 'smooth' });
+            
+            // Reset form for demo purposes
+            setTimeout(() => {
+                selectedFile = null;
+                fileInput.value = '';
+                messageInput.value = '';
+                passwordInput.value = '';
+                confirmPasswordInput.value = '';
+                confirmPasswordInput.style.display = 'none';
+                uploadBtn.disabled = true;
+                fileInfo.style.display = 'none';
+                uploadContainer.style.display = 'flex';
+                wordCount.textContent = '0/60 words';
+            }, 10000);
+        }
+        
+        function generateSecretKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < 16; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+        
+        function copyShareLink() {
+            shareLink.select();
+            document.execCommand('copy');
+            
+            // Change button text temporarily
+            const originalText = copyLinkBtn.textContent;
+            copyLinkBtn.textContent = 'Copied!';
+            setTimeout(() => {
+                copyLinkBtn.textContent = originalText;
+            }, 2000);
+        }
+        
+        function simulateFileAccess() {
+            // In a real app, this would verify with a server
+            // For demo, we'll show sample file details
+            
+            detailName.textContent = 'SampleFile.pdf';
+            detailSize.textContent = '2.4 MB';
+            detailMessage.textContent = 'Here are the documents you requested. Please review them and let me know your thoughts.';
+            
+            // Set expiry 3 days from now
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + 3);
+            detailExpiry.textContent = expiryDate.toLocaleDateString() + ' at ' + expiryDate.toLocaleTimeString();
+            
+            fileDetails.style.display = 'block';
+            fileDetails.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function simulateDownload() {
+            alert('In a real application, this would download the file. This is a demo.');
+        }
+        
+        function closeModal() {
+            loginModal.style.display = 'none';
+            signupModal.style.display = 'none';
+        }
+        
+        function toggleMobileMenu() {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (navLinks.style.display === 'flex') {
+                        navLinks.style.display = 'none';
+                    }
+                }
+            });
+        });
+        
+        // Initialize AdSense
+        (function() {
+            // This would be handled by the AdSense script
+            console.log('AdSense initialized');
+        })();
+    </script>
+</body>
+</html>
